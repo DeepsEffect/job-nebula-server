@@ -32,7 +32,6 @@ async function run() {
 
     //find all the jobs
     app.get("/jobs", async (req, res) => {
-      console.log(req.query);
       const result = await jobCollection.find().toArray();
       res.send(result);
     });
