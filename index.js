@@ -51,7 +51,7 @@ async function run() {
       const result = await jobCollection.find(query).toArray();
       res.send(result);
     });
-
+    //hfhfhfh
     //post a job
     app.post("/jobs", async (req, res) => {
       const job = req.body;
