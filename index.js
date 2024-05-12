@@ -61,6 +61,32 @@ async function run() {
       res.send(result);
     });
 
+    //update job data
+    app.put("/myJobs/:email", async (req, res) => {
+      const userEmail = req.params.email;
+      const updateJob = req.body;
+      const filter = { email: userEmail };
+      const options = { upsert: true };
+
+      const newUpdatedJob = {
+        $set: {
+          jobTitle: updateJob.jobTitle,
+          bannerImg: updateJob.bannerImg,
+          jobCategory: updateJob.jobCategory,
+          "salaryRange.minSalary": updateJob.salaryRange.minSalary,
+          "salaryRange.maxSalary": updateJob.salaryRange.maxSalary,
+          jobDescription: updateJob.jobDescription,
+          applicationDeadline: updateJob.applicationDeadline,
+        },
+      };
+      const result = await jobCollection.updateOne(
+        filter,
+        newUpdatedJob,
+        options
+      );
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
