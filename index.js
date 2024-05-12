@@ -14,6 +14,8 @@ app.use(
 );
 app.use(express.json());
 
+// everything working again yay! Electricity went out right the moment I pressed "git push" (timing right!) PC got shut down and it corrupted the freaked out of the git files; could not push, pull or do anything. Had to delete the .git and redeploy and merge the branches for the fix :) damn the electricity. Going through Stack Overflow, I found this was the only fix. Some of the other fellows had the same issues as well I found XD. Their electricity also went out during the moment they were committing lmao; Guess I am not the only one. Not sure why am I writing this paragraph of a comment which no one will ever read? I dunno, it's a cold night, just stopped raining outside, and I am feeling a bit bored lonely and sorrow and not feel like coding rn. To the ghost that will read this --> hope you have a great day :))
+
 //mongodb
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.ctz3uz9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
