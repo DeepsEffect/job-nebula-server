@@ -62,10 +62,10 @@ async function run() {
     });
 
     //update job data
-    app.put("/myJobs/:email", async (req, res) => {
-      const userEmail = req.params.email;
+    app.put("/jobs/:id", async (req, res) => {
+      const id = req.params.id;
       const updateJob = req.body;
-      const filter = { email: userEmail };
+      const filter = { _id: new ObjectId(id) };
       const options = { upsert: true };
 
       const newUpdatedJob = {
