@@ -105,6 +105,20 @@ async function run() {
       res.send(result);
     });
 
+    //find all the applicants
+    app.get("/applicants", async (req, res) => {
+      const result = await applicantsCollection.find().toArray();
+      res.send(result);
+    });
+
+    // find applicants by email
+    app.get("/applicants/:email", async (req, res) => {
+      const applicantsEmail = req.params.email;
+      const query = { "applicantsInfo.applicantEmail": applicantsEmail };
+      const result = await applicantsCollection.find(query).toArray();
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
