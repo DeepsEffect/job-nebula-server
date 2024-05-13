@@ -31,6 +31,9 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     const jobCollection = client.db("JobNebulaDB").collection("jobCollection");
+    const applicantsCollection = client
+      .db("JobNebulaDB")
+      .collection("applicantsCollection");
 
     //find all the jobs
     app.get("/jobs", async (req, res) => {
@@ -92,6 +95,13 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await jobCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    // applicants related api
+    app.post("/applicants", async (req, res) => {
+      const applicantsJobInfo = req.body;
+      const result = await applicantsCollection.insertOne(applicantsJobInfo);
       res.send(result);
     });
 
