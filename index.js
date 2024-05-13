@@ -102,6 +102,26 @@ async function run() {
     app.post("/applicants", async (req, res) => {
       const applicantsJobInfo = req.body;
       const result = await applicantsCollection.insertOne(applicantsJobInfo);
+      // check for duplicate application
+      const dupQuery = {
+        email: applicantsJobInfo.email,
+        jobId: applicantsJobInfo.jobId,
+      };
+      const alreadyApplied = await applicantsCollection.findOne(dupQuery);
+      // console.log(alreadyApplied);
+      if (alreadyApplied) {
+        return res.status(400).send("You have already applied for this job");
+      }
+      // update the applicants count in jobCollection
+      const updateDoc = {
+        $inc: { job_applicants: 1 },
+      };
+      const query = { _id: new ObjectId(applicantsJobInfo.jobId) };
+      const updateApplicantCount = await jobCollection.updateOne(
+        query,
+        updateDoc
+      );
+      // console.log(updateApplicantCount);
       res.send(result);
     });
 
