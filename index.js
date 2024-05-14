@@ -29,7 +29,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     const jobCollection = client.db("JobNebulaDB").collection("jobCollection");
     const applicantsCollection = client
       .db("JobNebulaDB")
@@ -101,17 +101,20 @@ async function run() {
     // applicants related api
     app.post("/applicants", async (req, res) => {
       const applicantsJobInfo = req.body;
-      const result = await applicantsCollection.insertOne(applicantsJobInfo);
       // check for duplicate application
       const dupQuery = {
         email: applicantsJobInfo.email,
         jobId: applicantsJobInfo.jobId,
       };
+
       const alreadyApplied = await applicantsCollection.findOne(dupQuery);
       // console.log(alreadyApplied);
       if (alreadyApplied) {
         return res.status(400).send("You have already applied for this job");
       }
+      //insert if not dup
+      const result = await applicantsCollection.insertOne(applicantsJobInfo);
+
       // update the applicants count in jobCollection
       const updateDoc = {
         $inc: { job_applicants: 1 },
@@ -140,7 +143,7 @@ async function run() {
     });
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
