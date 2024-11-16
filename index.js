@@ -103,7 +103,8 @@ async function run() {
       const applicantsJobInfo = req.body;
       // check for duplicate application
       const dupQuery = {
-        email: applicantsJobInfo.email,
+        "applicantsInfo.applicantEmail":
+          applicantsJobInfo.applicantsInfo.applicantEmail,
         jobId: applicantsJobInfo.jobId,
       };
 
